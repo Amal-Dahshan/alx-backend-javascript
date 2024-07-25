@@ -1,61 +1,65 @@
 export default class HolbertonCourse {
   constructor(name, length, students) {
-    if (typeof(name) !== 'string') {
-      throw new TypeError('Name must be a string');
-    } else {
-      this._name = name;
-    }
+    /* eslint-disable no-unused-expressions */
+    HolbertonCourse.checkName(name) ? this._name = name : HolbertonCourse.throwTypeError('Name must be a string');
+    HolbertonCourse.checkLength(length) ? this._length = length : HolbertonCourse.throwTypeError('Length must be a number');
+    HolbertonCourse.checkStudents(students) ? this._students = students : HolbertonCourse.throwTypeError('Students must be an array of strings');
+    /* eslint-enable no-unused-expressions */
+  }
 
-    if (typeof(length) !== 'number') {
-      throw new TypeError('Length must be a number');
-    } else {
-      this._length = length;
+  static throwTypeError(err) {
+    if (err) {
+      throw new TypeError(err);
     }
+  }
 
-    if (
-      !Array.isArray(students) &&
-      students.every(typeof students !== 'string')
-    ) {
-      throw new TypeError('Students must be an array of string');
-    } else {
-      this._students = students;
+  static checkName(name) {
+    if (typeof name === 'string' || name instanceof String) {
+      return true;
     }
+    return false;
+  }
+
+  static checkLength(length) {
+    if (typeof length === 'number' || length instanceof Number) {
+      return true;
+    }
+    return false;
+  }
+
+  static checkStudents(students) {
+    if (Array.isArray(students) || students instanceof Array) {
+      for (const student of students) {
+        if (typeof student !== 'string' && student instanceof String === false) {
+          return false;
+        }
+      }
+      return true;
+    }
+    return false;
   }
 
   get name() {
     return this._name;
   }
 
-  set name(name) {
-    if (typeof(name) !== 'string') {
-      throw new TypeError('Name must be a string');
-    }
-
-    this._name = name;
-  }
   get length() {
     return this._length;
   }
 
-  set length(length) {
-    if (typeof(length) !== 'number') {
-      throw new TypeError('Length must be a number');
-    }
-
-    this._length = length;
-  }
   get students() {
     return this._students;
   }
 
-  set students(students) {
-    if (
-      !Array.isArray(students) &&
-      !students.every(typeof students === 'string')
-    ) {
-      throw new TypeError('Students must be an array of string');
-    }
+  set name(name) {
+    HolbertonCourse.checkName(name) ? this._name = name : HolbertonCourse.throwTypeError('Name must be a string'); // eslint-disable-line no-unused-expressions
+  }
 
-    this._students = students;
+  set length(length) {
+    HolbertonCourse.checkLength(length) ? this._length = length : HolbertonCourse.throwTypeError('Length must be a number'); // eslint-disable-line no-unused-expressions
+  }
+
+  set students(students) {
+    HolbertonCourse.checkStudents(students) ? this._students = students : HolbertonCourse.throwTypeError('Students must be an array of strings'); // eslint-disable-line no-unused-expressions
   }
 }
