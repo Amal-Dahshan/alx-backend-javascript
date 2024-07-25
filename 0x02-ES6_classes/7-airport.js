@@ -1,3 +1,5 @@
+const util = require('util');
+
 export default class Airport {
   constructor(name, code) {
     this._name = name;
@@ -5,6 +7,10 @@ export default class Airport {
   }
 
   toString() {
-    return `[${typeof(this)} ${this._code}]`;
+    return (`[${typeof this} ${this._code}]`);
+  }
+
+  [util.inspect.custom]() {
+    return (`${this.constructor.name} [${this._code}] ${JSON.stringify(this)}`);
   }
 }

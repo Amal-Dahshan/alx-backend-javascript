@@ -1,18 +1,15 @@
 export default class Building {
   constructor(sqft) {
-    this._sqft = sqft;
-    console.log(this.#evacuationWarningMessage())
+    const name = 'evacuationWarningMessage';
+    const proto = Object.getPrototypeOf(this);
+    if (proto.hasOwnProperty(name) || this.constructor.name === 'Building') { // eslint-disable-line no-prototype-builtins
+      this._sqft = sqft;
+    } else {
+      throw new Error('Class extending Building must override evacuationWarningMessage');
+    }
   }
 
   get sqft() {
     return this._sqft;
   }
-
-  set sqft(sqft) {
-    this._sqft = sqft;
-  }
-
- #evacuationWarningMessage(){
-  return 'Hey There'
- }
 }
